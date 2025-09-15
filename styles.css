@@ -6,6 +6,8 @@ body {
     line-height: 24px;
     color: #111827;
     font-weight: 400;
+
+    transition: .7s ease;
 }
 
 .container {
@@ -360,6 +362,8 @@ p {
     display: flex;
     justify-content: center;
     padding: 72px 0;
+
+    transition: 0.7s ease-in-out;
 }
 
 
@@ -1119,4 +1123,44 @@ input[type="radio"] {
     .footer .chapters {
         margin: 0 0;
     }
+}
+
+/* Theme */
+#theme__mode {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    font-size: 24px;
+    border-radius: 50%;
+    background-color: white;
+    border-width: 0px;
+    cursor: pointer;
+
+    transition: .5s ease;
+}
+
+body.dark {
+    background-color: #12151a;
+    color: rgb(217, 211, 211);
+
+    transition: .7s ease-in-out;
+}
+
+body.dark .main {
+    background-color: #2b2d33;
+    transition: .7s ease-in-out;
+}
+
+body.dark .main__calculation-right {
+    color: #111827;
+}
+
+body.dark .slider {
+    color: #111827;
+}
+
+body.dark .questions {
+    color: #111827;
 }
