@@ -1164,3 +1164,15 @@ body.dark .slider {
 body.dark .questions {
     color: #111827;
 }
+
+body.dark .nav__link {
+    color: rgb(217, 211, 211);
+}
+
+body.dark .nav__link-active {
+    color: #8B5CF6;
+}
+
+body.dark .nav__link:hover {
+    color: #8B5CF6;
+}
