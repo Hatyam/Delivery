@@ -19,3 +19,50 @@ btn.addEventListener('click', () => {
         localStorage.setItem('theme-toggle', 'light')
     }
 })
+
+let form = document.querySelector('.form_calculate')
+
+const formRegExp = {
+    username: /^(?=[А-Я])[a-я]{2,}$/,
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    phone: /^(\+7|8)\d{10}$/,
+    square: /^\d+$/,
+    weight: /^\d+/,
+    'buy-country': /^[а-яА-Я][а-я]{1,}$/,
+    'buy-town': /^[а-яА-Я][а-я]{1,}$/,
+    'send-state': /^[а-яА-Я][а-яА-Я]{1,}\s[а-яА-Я]{1,}$/,
+    'send-town': /^[а-яА-Я][а-я]{1,}$/
+}
+
+let totalSum = document.querySelector('.calculation__button')
+let lastSum
+
+function isAllValid(formInp) {
+    let formInputs = document.querySelectorAll(`${formInp}`)
+    return Array.from(formInputs).every(item => formRegExp[item.name].test(item.value))
+}
+
+form.addEventListener('input', (event) => {
+    let input = event.target
+    let rule = formRegExp[input.name]
+
+    if (rule) {
+        if (rule.test(input.value.trim())) {
+            input.style.outline = '2px solid green'
+        }
+        else {
+            input.style.outline = '2px solid red'
+        }
+    }
+
+    if (isAllValid('.form_calculate .form__input__item')) {
+        if (lastSum === undefined) {
+            lastSum = form.querySelector("input[name='square']").value * form.querySelector("input[name='weight']").value
+            totalSum.textContent += `${lastSum}`
+        }
+        else {
+            totalSum.textContent = totalSum.textContent.replace(`${lastSum}`, `${form.querySelector("input[name='square']").value * form.querySelector("input[name='weight']").value}`)
+            lastSum = form.querySelector("input[name='square']").value * form.querySelector("input[name='weight']").value
+        }
+    }
+})

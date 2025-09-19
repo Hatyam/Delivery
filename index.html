@@ -55,7 +55,7 @@
                     <a class="nav__link nav__link__last" href="#">Отзывы</a>
                 </nav>
                 <button class="chapters__button">
-                    Оставить заявку
+                    <a href="#order__form">Оставить заявку</a>
                 </button>
             </div>
             <div class="header__about__info header__burger__about__info">
@@ -81,12 +81,12 @@
                     <img class="calculation__img-left" src="images/calculation-left.jpg" alt="#">
                 </div>
 
-                <div class="main__calculation-right">
+                <div class="main__calculation-right" id="order__form">
                     <div class="calculation__text-right">
                         <h3 class="calculation__h3-right">Калькулятор доставки</h3>
                         <p class="calculation__p-right">Посчитайте, сколько будет стоить перевозка покупки из зарубежа</p>
                     </div>
-                    <div class="form">
+                    <div class="form form_calculate">
                         <input class="form__input__item form__input__item-big" id="username" type="text" name="username" placeholder="Имя">
                         <div class="form__input-rest">
                             <input type="text" placeholder="Почта" name="email" class="form__input__item">
@@ -99,7 +99,7 @@
                             <input type="text" placeholder="Город доставки" name="send-town" class="form__input__item">
                         </div>
                     </div>
-                    <button class="calculation__button">Заказать расчёт</button>
+                    <div class="calculation__button">Итоговая сумма: </div>
                 </div>
             </div>
 
