@@ -42,6 +42,17 @@ function isAllValid(formInp) {
     return Array.from(formInputs).every(item => formRegExp[item.name].test(item.value))
 }
 
+if (!localStorage.hasOwnProperty('form')) localStorage.setItem('form', JSON.stringify({}))
+Array.from(form.querySelectorAll('.form__input__item')).forEach(el => {
+    let obj = JSON.parse(localStorage.getItem('form'))
+    if (obj[el.name] !== undefined) 
+        el.value = obj[el.name]
+})
+if (isAllValid('.form_calculate .form__input__item')) {
+    lastSum = +localStorage.getItem('totalSum')
+    totalSum.textContent += `${lastSum}`
+}
+
 form.addEventListener('input', (event) => {
     let input = event.target
     let rule = formRegExp[input.name]
@@ -49,6 +60,10 @@ form.addEventListener('input', (event) => {
     if (rule) {
         if (rule.test(input.value.trim())) {
             input.style.outline = '2px solid green'
+
+            let obj = JSON.parse(localStorage.getItem('form'))
+            obj[input.name] = input.value
+            localStorage.setItem('form', JSON.stringify(obj))
         }
         else {
             input.style.outline = '2px solid red'
@@ -64,5 +79,7 @@ form.addEventListener('input', (event) => {
             totalSum.textContent = totalSum.textContent.replace(`${lastSum}`, `${form.querySelector("input[name='square']").value * form.querySelector("input[name='weight']").value}`)
             lastSum = form.querySelector("input[name='square']").value * form.querySelector("input[name='weight']").value
         }
+        localStorage.setItem('totalSum', `${lastSum}`)
     }
 })
+
