@@ -83,3 +83,17 @@ form.addEventListener('input', (event) => {
     }
 })
 
+let faqQuestions = document.querySelectorAll('.faq .faq__wrapper')
+
+Array.from(faqQuestions).forEach(item => {
+    item.addEventListener('click', () => {
+        if (item.parentElement.classList.contains('faq__item__closed')) {
+            item.querySelector('.faq__open').textContent = '▲'
+        }
+        else {
+            item.querySelector('.faq__open').textContent = '▼'
+        }
+        item.parentElement.classList.toggle('faq__item__closed')
+        item.parentElement.classList.toggle('faq__item__opened')
+    })
+})

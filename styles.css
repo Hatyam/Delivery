@@ -1151,6 +1151,56 @@ input[type="radio"] {
     transition: .5s ease;
 }
 
+/* FAQ */
+.faq {
+    display: grid;
+    gap: 8px;
+
+    color: #111827;
+}
+
+.faq__item {
+    background-color: #d1d2d4;
+    border-radius: 5px;
+    transition: .5s;
+}
+
+.faq__item.faq__item__opened .faq__item__p {
+    display: block;
+}
+
+.faq__wrapper {
+    cursor: pointer;
+    padding: 10px 30px;
+    user-select: none;
+}
+
+.faq__item__see {
+    display: flex;
+    justify-content: space-between;
+}
+
+.faq__open {
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.faq__item__header {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 600;
+}
+
+.faq__item__p {
+    display: none;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 450;
+    margin: 0px 30px 5px;
+}
+
+/* Dark theme */
 body.dark {
     background-color: #12151a;
     color: rgb(217, 211, 211);
