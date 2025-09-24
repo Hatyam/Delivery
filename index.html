@@ -49,13 +49,13 @@
             </label>
             <div class="chapters">
                 <nav class="nav">
-                    <a class="nav__link nav__link-active" href="#">Калькулятор</a>
+                    <a class="nav__link nav__link-active" href="#order__form">Калькулятор</a>
                     <a class="nav__link" href="#">О нас</a>
                     <a class="nav__link" href="#">Гарантии</a>
                     <a class="nav__link nav__link__last" href="#">Отзывы</a>
                 </nav>
                 <button class="chapters__button">
-                    <a href="#order__form">Оставить заявку</a>
+                    Оставить заявку
                 </button>
             </div>
             <div class="header__about__info header__burger__about__info">
@@ -321,16 +321,20 @@
 
             <div class="questions">
                 <h3 class="questions__h3">Остались вопросы?</h3>
-                <div class="form">
-                    <div class="form__input-rest">
-                        <input type="text" name="name__question" class="form__input__item" placeholder="Имя">
-                        <input type="text" name="email__question" class="form__input__item" placeholder="Почта">
-                        <input type="text" name="phone__question" class="form__input__item" placeholder="Телефон">
-                        <input type="text" name="theme__question" class="form__input__item" placeholder="Тема Вопроса">
+
+                <form class="questions__form">
+                    <div class="form">
+                        <div class="form__input-rest">
+                            <input type="text" name="username" class="form__input__item" placeholder="Имя">
+                            <input type="text" name="email" class="form__input__item" placeholder="Почта">
+                            <input type="text" name="phone" class="form__input__item" placeholder="Телефон">
+                            <input type="text" name="theme" class="form__input__item" placeholder="Тема Вопроса">
+                        </div>
+                        <textarea type="text" name="sms" class="form__input__item form__input__item-big" placeholder="Сообщение"></textarea>
                     </div>
-                    <textarea type="text" name="sms__question" class="form__input__item form__input__item-big" placeholder="Сообщение"></textarea>
-                </div>
-                <button class="calculation__button">Оставить заявку</button>
+                    <button class="calculation__button">Оставить заявку</button>
+                </form>
+
             </div>
 
             <div class="faq">
@@ -399,6 +403,7 @@
         </div>
     </footer>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser/dist/email.min.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

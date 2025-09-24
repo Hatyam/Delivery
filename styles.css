@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 /* Body */
 body {
     margin: 0 0;
@@ -1042,6 +1046,15 @@ input[type="radio"] {
     height: 150px;
 }
 
+.questions .calculation__button {
+    transition: .2s;
+}
+
+.questions .calculation__button:hover {
+    color: #8B5CF6;
+    background-color: #F9FAFB;
+}
+
 .questions .form {
     margin: 32px 0 20px;
 }
@@ -1233,6 +1246,6 @@ body.dark .nav__link-active {
     color: #8B5CF6;
 }
 
-body.dark .nav__link:hover {
+.footer .nav__link:hover {
     color: #8B5CF6;
 }

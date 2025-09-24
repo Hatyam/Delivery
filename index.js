@@ -1,3 +1,4 @@
+/* Тема сайта */
 let btn = document.querySelector('#theme__mode')
 
 if (localStorage.getItem('theme-toggle') === 'dark') {
@@ -20,6 +21,8 @@ btn.addEventListener('click', () => {
     }
 })
 
+/* Калькулятор */
+
 let form = document.querySelector('.form_calculate')
 
 const formRegExp = {
@@ -31,7 +34,9 @@ const formRegExp = {
     'buy-country': /^[а-яА-Я][а-я]{1,}$/,
     'buy-town': /^[а-яА-Я][а-я]{1,}$/,
     'send-state': /^[а-яА-Я][а-яА-Я]{1,}\s[а-яА-Я]{1,}$/,
-    'send-town': /^[а-яА-Я][а-я]{1,}$/
+    'send-town': /^[а-яА-Я][а-я]{1,}$/,
+    theme: /.+/,
+    sms: /.+/,
 }
 
 let totalSum = document.querySelector('.calculation__button')
@@ -83,6 +88,7 @@ form.addEventListener('input', (event) => {
     }
 })
 
+/* FAQ */
 let faqQuestions = document.querySelectorAll('.faq .faq__wrapper')
 
 Array.from(faqQuestions).forEach(item => {
@@ -96,4 +102,62 @@ Array.from(faqQuestions).forEach(item => {
         item.parentElement.classList.toggle('faq__item__closed')
         item.parentElement.classList.toggle('faq__item__opened')
     })
+})
+
+/* Остались вопросы? */
+let formQuestions = document.querySelector('.questions__form')
+
+formQuestions.addEventListener('input', (event) => {
+    let input = event.target
+    let rule = formRegExp[input.name]
+
+    if (rule) {
+        if (rule.test(input.value.trim())) {
+            input.style.outline = '2px solid green'
+
+            let obj = JSON.parse(localStorage.getItem('formQuestions'))
+            obj[input.name] = input.value
+            localStorage.setItem('formQuestions', JSON.stringify(obj))
+        }
+        else {
+            input.style.outline = '2px solid red'
+        }
+    }
+})
+
+if (!localStorage.hasOwnProperty('formQuestions')) localStorage.setItem('formQuestions', JSON.stringify({}))
+Array.from(formQuestions.querySelectorAll('.form__input__item')).forEach(el => {
+    let obj = JSON.parse(localStorage.getItem('formQuestions'))
+    if (obj[el.name] !== undefined) 
+        el.value = obj[el.name]
+})
+
+/* Отправка письма на почту */
+emailjs.init('KU44lPOwgGQibpZ3j')
+
+formQuestions.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    if (!isAllValid('.questions__form .form__input__item')) {
+        alert('Заполните все поля!')
+        return;
+    }
+
+    let timeInput = document.createElement('input')
+    timeInput.type = 'hidden'
+    timeInput.name = 'time'
+    let now = new Date()
+    let timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}\n${now.getDate().toString().padStart(2, '0')}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getYear().toString()}`
+    timeInput.value = timeStr
+    form.appendChild(timeInput)
+
+    emailjs.sendForm('service_s2990uc', 'template_tp0646c', formQuestions, 'KU44lPOwgGQibpZ3j')
+        .then(() => {
+            alert('✅ Сообщение отправлено!')
+            formQuestions.reset()
+        })
+        .catch(err => {
+            alert('❌ Ошибка при отправке:' + err.text)
+        })
+
 })
