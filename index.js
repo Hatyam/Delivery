@@ -149,7 +149,7 @@ formQuestions.addEventListener('submit', (event) => {
     let now = new Date()
     let timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}\n${now.getDate().toString().padStart(2, '0')}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getYear().toString()}`
     timeInput.value = timeStr
-    form.appendChild(timeInput)
+    formQuestions.appendChild(timeInput)
 
     emailjs.sendForm('service_s2990uc', 'template_tp0646c', formQuestions, 'KU44lPOwgGQibpZ3j')
         .then(() => {
