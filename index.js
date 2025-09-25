@@ -161,3 +161,60 @@ formQuestions.addEventListener('submit', (event) => {
         })
 
 })
+
+/* Слайдер */
+const slides = document.querySelectorAll('.reviews .overflow .slide')
+let sliderTrack = document.querySelector('.reviews .slider .slider__track')
+let slideWidth = slides[0].offsetWidth
+let slideMargin = parseInt(getComputedStyle(slides[0]).marginRight)
+
+let index = 1
+let step = slideWidth + slideMargin
+sliderTrack.style.transition = 'none'
+sliderTrack.style.transform = `translateX(-${step}px)`
+requestAnimationFrame( () => {
+    requestAnimationFrame(() => {sliderTrack.style.transition = '.5s'})
+})
+
+let isAnimating = false
+
+document.querySelector('.reviews .slider .slider__track').addEventListener('transitionend', () => {
+    if (index === 0) {
+        sliderTrack.style.transition = 'none'
+        sliderTrack.style.transform = `translateX(-${(Array.from(slides).length - 2) * step}px)`
+        
+        index = Array.from(slides).length - 2
+
+        requestAnimationFrame( () => {
+            requestAnimationFrame(() => {sliderTrack.style.transition = '.5s'})
+        } )
+    }
+    else if (index === Array.from(slides).length - 2) {
+        sliderTrack.style.transition = 'none'
+        sliderTrack.style.transform = `translateX(0px)`
+        
+        index = 0
+
+        requestAnimationFrame( () => {
+            requestAnimationFrame(() => {sliderTrack.style.transition = '.5s'})
+        } )
+    }
+
+    isAnimating = false
+})
+
+document.querySelector('.reviews .slider .prev__button').addEventListener('click', () => {
+    if (isAnimating) return
+    isAnimating = true
+
+    index = (index - 1) % (slides.length - 1)
+    document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
+})
+
+document.querySelector('.reviews .slider .next__button').addEventListener('click', () => {
+    if (isAnimating) return
+    isAnimating = true
+
+    index = (index + 1) % (slides.length - 1)
+    document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
+})

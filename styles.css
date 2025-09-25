@@ -785,30 +785,33 @@ p {
 
 /* Slider */
 .overflow {
-    width: 100%;
+    width: 1276px;
     overflow: hidden;
 }
 
 .slider__track {
-    width: 300%;
+    width: 400%;
     display: flex;
     transition: transform 1s ease;
 }
 
 .slider {
-    width: 1276px;
+    width: 100%;
     /* overflow: hidden; */
     position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 @media (max-width: 1536px) {
-    .slider {
+    .overflow {
         width: 816px;
     }
 }
 
 @media (max-width: 768px) {
-    .slider {
+    .overflow {
         width: 442px;
     }
 }
@@ -876,9 +879,9 @@ p {
     }
 }
 
-input[type="radio"] {
+/* input[type="radio"] {
     display: none;
-}
+} */
 
 .slide svg {
     position: absolute;
@@ -895,7 +898,7 @@ input[type="radio"] {
     }
 }
 
-.arrows label {
+/* .arrows label {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -911,10 +914,10 @@ input[type="radio"] {
     user-select: none;
     background: transparent;
     box-sizing: border-box;
-}
+} */
 
 /* Arrows */
-.arrows .prev::before {
+/* .arrows .prev::before {
     font-size: 42px;
     content: "←";
 }
@@ -942,20 +945,17 @@ input[type="radio"] {
     .arrows .next {
         right: -95px;
     }
-}
+} */
 
-#s1:checked ~ .overflow .slider__track {
+/*w#s1:checked ~ .overflow .slider__track {
     transform: translateX(0);
-    /* margin-left: 0; */
 }
 
 #s2:checked ~ .overflow .slider__track {
-    /* margin-left: -100%; */
     transform: translateX(-650px);
 }
 
 #s3:checked ~ .overflow .slider__track {
-    /* margin-left: -200%; */
     transform: translateX(-1300px);
 }
 
@@ -1021,6 +1021,23 @@ input[type="radio"] {
 #s4:checked ~ .arrows label:nth-child(4),
 #s5:checked ~ .arrows label:nth-child(5) {
     display: flex;
+} */
+
+.reviews .slider__button {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #8B5CF6;
+    color: #8B5CF6;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    background: transparent;
+    box-sizing: border-box;
 }
 
 /* Questions */
@@ -1248,4 +1265,9 @@ body.dark .nav__link-active {
 
 .footer .nav__link:hover {
     color: #8B5CF6;
+}
+
+body.dark .warranties__button:hover {
+    color: #8B5CF6;
+    background-color: #F9FAFB;
 }
