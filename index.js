@@ -178,6 +178,17 @@ requestAnimationFrame( () => {
 
 let isAnimating = false
 
+window.addEventListener('resize', () => {
+    slideWidth = slides[0].offsetWidth
+    slideMargin = parseInt(getComputedStyle(slides[0]).marginRight)
+    step = slideWidth + slideMargin
+    sliderTrack.style.transition = 'none'
+    sliderTrack.style.transform = `translateX(-${step * index}px)`
+    requestAnimationFrame( () => {
+        requestAnimationFrame(() => {sliderTrack.style.transition = '.5s'})
+})
+})
+
 document.querySelector('.reviews .slider .slider__track').addEventListener('transitionend', () => {
     if (index === 0) {
         sliderTrack.style.transition = 'none'
