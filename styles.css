@@ -1263,7 +1263,7 @@ body.dark .nav__link-active {
     color: #8B5CF6;
 }
 
-.footer .nav__link:hover {
+.footer .nav__link:hover, .header .nav__link:hover {
     color: #8B5CF6;
 }
 

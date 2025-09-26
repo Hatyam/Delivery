@@ -207,14 +207,42 @@ document.querySelector('.reviews .slider .prev__button').addEventListener('click
     if (isAnimating) return
     isAnimating = true
 
-    index = (index - 1) % (slides.length - 1)
-    document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
+    if (index === 0) {
+        sliderTrack.style.transition = 'none'
+        sliderTrack.style.transform = `translateX(-${(Array.from(slides).length - 2) * step}px)`
+        
+        index = Array.from(slides).length - 3
+
+        requestAnimationFrame( () => {
+            requestAnimationFrame( () => {
+                sliderTrack.style.transition = '.5s'
+                document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`})
+        })
+
+    } else {
+        index = (index - 1) % (slides.length - 1)
+        document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
+    }
 })
 
 document.querySelector('.reviews .slider .next__button').addEventListener('click', () => {
     if (isAnimating) return
     isAnimating = true
 
-    index = (index + 1) % (slides.length - 1)
-    document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
+    if (index === Array.from(slides).length - 2) {
+        sliderTrack.style.transition = 'none'
+        sliderTrack.style.transform = `translateX(0px)`
+        
+        index = 1
+
+        requestAnimationFrame( () => {
+            requestAnimationFrame( () => {
+                sliderTrack.style.transition = '.5s'
+                document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`})
+        })
+
+    } else {
+        index = (index + 1) % (slides.length - 1)
+        document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
+    }
 })
