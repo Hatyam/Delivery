@@ -321,6 +321,11 @@ countryEl.addEventListener('input', async () => {
         Array.from(ul.querySelectorAll('li')).forEach((curVal) => {
             curVal.addEventListener('click', () => {
                 countryEl.value = curVal.textContent
+                let newCountryLS = curVal.textContent
+                let obj = JSON.parse(localStorage.form)
+                obj['buy-country'] = newCountryLS
+                localStorage.form = JSON.stringify(obj)
+
                 ul.remove()
             })
         })
