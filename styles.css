@@ -546,6 +546,7 @@ p {
     border-radius: 4px;
     font-size: 16px;
     line-height: 24px;
+    width: 100%;
 }
 
 .form__input-rest {
@@ -586,6 +587,10 @@ p {
     .calculation__button {
         width: 569px;
     }
+}
+
+.main__calculation-right .input__wrapper {
+    position: relative;
 }
 
 /* .calculation__button:hover {
@@ -1270,4 +1275,14 @@ body.dark .nav__link-active {
 body.dark .warranties__button:hover {
     color: #8B5CF6;
     background-color: #F9FAFB;
+}
+
+/* Подсказки ввода */
+.form_calculate .input__wrapper li:hover {
+    background-color: #D3D3D3;
+}
+
+.form_calculate .input__wrapper li {
+    transition: .2s;
+    cursor: pointer;
 }

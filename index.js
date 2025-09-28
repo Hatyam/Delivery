@@ -257,3 +257,78 @@ document.querySelector('.reviews .slider .next__button').addEventListener('click
         document.querySelector('.slider__track').style.transform = `translateX(-${index * step}px)`
     }
 })
+
+/* Подсказки ввода */
+const options = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Token ' + 'c747b1e14381a01ff22ee5093ad6a4ea23d10759',
+    },
+    body: JSON.stringify({query: 'та'})
+}
+
+async function getCountry(url, options) {
+    try {
+        let fet = await fetch(url, options)
+        if (fet.ok === true) {
+            let json = await fet.json()
+
+            return json.suggestions
+        } else {
+            throw new Error('упс...')
+        }
+    } catch (err) {
+        console.log('Произошла ошибка: ' ,err)
+        return []
+    }
+}
+
+let countryEl = document.querySelector('.form_calculate [name="buy-country"]')
+countryEl.addEventListener('input', async () => {
+    if (countryEl.parentElement.querySelector('ul')) {
+        countryEl.parentElement.querySelector('ul').remove()
+    }
+
+    if (isAllValid('.form_calculate [name="buy-country"]')) {
+        url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/country"
+        opt = options
+        opt.body = JSON.stringify({query: countryEl.value})
+    
+        const countries = await getCountry(url, opt)
+
+        let ul = document.createElement('ul')
+        ul.style.position = 'absolute'
+        ul.style.zIndex = '1'
+        ul.style.width = '100%'
+        ul.style.listStyle = 'none'
+        ul.style.padding = '0'
+        ul.style.margin = '0'
+        ul.style.backgroundColor = '#DCDCDC'
+        ul.style.borderRadius = '3px'
+
+        for (let country of countries) {
+            let li = document.createElement('li')
+            li.textContent = country.value
+
+            ul.appendChild(li)
+        }
+        
+        countryEl.parentElement.appendChild(ul)
+
+        Array.from(ul.querySelectorAll('li')).forEach((curVal) => {
+            curVal.addEventListener('click', () => {
+                countryEl.value = curVal.textContent
+                ul.remove()
+            })
+        })
+
+        document.addEventListener('click', (event) => {
+            if (!countryEl.contains(event.target)) {
+                ul.remove()
+            }
+        })
+    }
+})
