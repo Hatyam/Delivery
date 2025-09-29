@@ -365,3 +365,46 @@ clueKey.set('send-state', 'region_with_type');
         }
     })
 })
+
+/* Модальное окно */
+let modalBtn = document.querySelector('.header .chapters__button')
+modalBtn.addEventListener('click', () => {
+    let modalWindow = document.createElement('div')
+    modalWindow.style.position = 'fixed'
+    modalWindow.style.fontSize = '16px'
+    modalWindow.style.lineHeight = '20px'
+    modalWindow.style.borderRadius = '5px'
+    modalWindow.style.width = '20vw'
+    modalWindow.style.backgroundColor = '#DCDCDC'
+    modalWindow.style.textAlign = 'center'
+    modalWindow.style.color = '#000'
+    modalWindow.style.zIndex = '9999'
+    modalWindow.style.opacity = '1'
+    modalWindow.innerHTML = 'Совсем скоро вы сможете оставить заявку!</br>Для закрытия нажмитие вне окошка'
+    modalWindow.style.height = 'max-content'
+
+    let overlay = document.createElement('div')
+    overlay.style.position = 'fixed'
+    overlay.style.width = '100vw'
+    overlay.style.height = '100vh'
+    overlay.style.top = '0'
+    overlay.style.left = '0'
+    overlay.style.zIndex = '9998'
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+
+    document.body.appendChild(overlay)
+    document.body.appendChild(modalWindow)
+
+    document.body.style.overflow = 'hidden'
+
+    modalWindow.style.left = `${window.innerWidth / 2 - +modalWindow.offsetWidth / 2}px`
+    modalWindow.style.top = `${window.innerHeight / 2 - +modalWindow.offsetHeight / 2}px`
+
+    overlay.addEventListener('click', (event) => {
+        document.body.style.overflow = ''
+        if (!modalWindow.contains(event.target)) {
+            modalWindow.remove()
+            overlay.remove()
+        }
+    })
+})

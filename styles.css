@@ -12,6 +12,7 @@ body {
     font-weight: 400;
 
     transition: .7s ease;
+    position: relative;
 }
 
 .container {
