@@ -22,7 +22,6 @@ btn.addEventListener('click', () => {
 })
 
 /* Калькулятор */
-
 let form = document.querySelector('.form_calculate')
 
 const formRegExp = {
@@ -33,7 +32,7 @@ const formRegExp = {
     weight: /^\d+/,
     'buy-country': /^[а-яА-Я][а-я]{1,}$/,
     'buy-town': /^[а-яА-Я][а-я]{1,}$/,
-    'send-state': /^[а-яА-Я][а-яА-Я]{1,}\s[а-яА-Я]{1,}$/,
+    'send-state': /^[а-яА-Я][а-яА-Я]{1,}.*$/,
     'send-town': /^[а-яА-Я][а-я]{1,}$/,
     theme: /.+/,
     sms: /.+/,
@@ -259,15 +258,15 @@ document.querySelector('.reviews .slider .next__button').addEventListener('click
 })
 
 /* Подсказки ввода */
-const options = {
-    method: 'POST',
-    mode: 'cors',
+let optionsFullAddress = {
+    method: "POST",
+    mode: "cors",
     headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Token ' + 'c747b1e14381a01ff22ee5093ad6a4ea23d10759',
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Token " + 'c747b1e14381a01ff22ee5093ad6a4ea23d10759'
     },
-    body: JSON.stringify({query: 'та'})
+    body: JSON.stringify({query: 'тихоре'})
 }
 
 async function getCountry(url, options) {
@@ -287,53 +286,82 @@ async function getCountry(url, options) {
 }
 
 let countryEl = document.querySelector('.form_calculate [name="buy-country"]')
-countryEl.addEventListener('input', async () => {
-    if (countryEl.parentElement.querySelector('ul')) {
-        countryEl.parentElement.querySelector('ul').remove()
-    }
+let townElBuy = document.querySelector('.form_calculate [name="buy-town"]')
+let townElSend = document.querySelector('.form_calculate [name="send-town"]')
+let stateElSend = document.querySelector('.form_calculate [name="send-state"]');
 
-    if (isAllValid('.form_calculate [name="buy-country"]')) {
-        url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/country"
-        opt = options
-        opt.body = JSON.stringify({query: countryEl.value})
-    
-        const countries = await getCountry(url, opt)
+const clueKey = new Map()
+clueKey.set('buy-town', 'city')
+clueKey.set('send-town', 'city')
+clueKey.set('send-state', 'region_with_type');
 
-        let ul = document.createElement('ul')
-        ul.style.position = 'absolute'
-        ul.style.zIndex = '1'
-        ul.style.width = '100%'
-        ul.style.listStyle = 'none'
-        ul.style.padding = '0'
-        ul.style.margin = '0'
-        ul.style.backgroundColor = '#DCDCDC'
-        ul.style.borderRadius = '3px'
-
-        for (let country of countries) {
-            let li = document.createElement('li')
-            li.textContent = country.value
-
-            ul.appendChild(li)
+[countryEl ,townElBuy, townElSend, stateElSend].forEach(async (curVal) => {
+    curVal.addEventListener('input', async () => {
+        if (curVal.parentElement.querySelector('ul')) {
+            curVal.parentElement.querySelector('ul').remove()
         }
-        
-        countryEl.parentElement.appendChild(ul)
 
-        Array.from(ul.querySelectorAll('li')).forEach((curVal) => {
-            curVal.addEventListener('click', () => {
-                countryEl.value = curVal.textContent
-                let newCountryLS = curVal.textContent
-                let obj = JSON.parse(localStorage.form)
-                obj['buy-country'] = newCountryLS
-                localStorage.form = JSON.stringify(obj)
-
-                ul.remove()
-            })
-        })
-
-        document.addEventListener('click', (event) => {
-            if (!countryEl.contains(event.target)) {
-                ul.remove()
+        if (isAllValid(`.form_calculate [name="${curVal.name}"]`)) {
+            let url
+            if (curVal.name === 'buy-country') {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/country"
+            } else {
+                url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address'
             }
-        })
-    }
+            opt = optionsFullAddress
+            opt.body = JSON.stringify({query: curVal.value})
+        
+            const countries = await getCountry(url, opt)
+
+            let ul = document.createElement('ul')
+            ul.style.position = 'absolute'
+            ul.style.zIndex = '1'
+            ul.style.width = '100%'
+            ul.style.listStyle = 'none'
+            ul.style.padding = '0'
+            ul.style.margin = '0'
+            ul.style.backgroundColor = '#DCDCDC'
+            ul.style.borderRadius = '3px'
+            
+            if (curVal.name === 'buy-country') {
+                for (let country of countries) {
+                    let li = document.createElement('li')
+                    li.textContent = country.value
+
+                    ul.appendChild(li)
+                }
+            } else {
+                const newSet = new Set()
+                for (let country of countries) {
+                    if (!newSet.has(country.data[clueKey.get(curVal.name)])) {
+                        newSet.add(country.data[clueKey.get(curVal.name)])
+                        
+                        let li = document.createElement('li')
+                        li.textContent = country.data[clueKey.get(curVal.name)]
+                        ul.appendChild(li)
+                    }
+                }
+            }
+
+            curVal.parentElement.appendChild(ul)
+
+            Array.from(ul.querySelectorAll('li')).forEach((cV) => {
+                cV.addEventListener('click', () => {
+                    curVal.value = cV.textContent
+                    let newCountryLS = cV.textContent
+                    let obj = JSON.parse(localStorage.form)
+                    obj[`${curVal.name}`] = newCountryLS
+                    localStorage.form = JSON.stringify(obj)
+
+                    ul.remove()
+                })
+            })
+
+            document.addEventListener('click', (event) => {
+                if (!curVal.contains(event.target)) {
+                    ul.remove()
+                }
+            })
+        }
+    })
 })
